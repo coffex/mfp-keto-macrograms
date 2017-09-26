@@ -5,7 +5,7 @@ Inspired by <a href="https://github.com/Surye/mfp-keto-userscript">Surye/mfp-ket
 <h1>Installation: </h1>
 <ul>
 <li><b>Safari</b>: Install <a href="https://tampermonkey.net/?ext=dhdg&browser=safari">Tampermonkey</a>.</li>
-<li><b>Firefox</b>: Install <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">Greasemonkey</a></li>
+<li><b>Firefox</b>: Install <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">Greasemonkey</a>.</li>
 <li><b>Safari/Firefox: After installing the plugin, go to <a href="../../raw/master/mfp-keto-macrograms.user.js">mfp-keto-macrograms.user.js</a> to install.</b>
 <li><b>Chrome</b>: Drag <a href="../../raw/master/mfp-keto-macrograms.user.js">mfp-keto-macrograms.user.js</a> onto the <a href="chrome://extensions">chrome://extensions</a> page.<br /><img src="../../raw/master/chrome_installation.gif" /></li>
 </ul>

@@ -1,12 +1,42 @@
 // ==UserScript==
 // @name           MFP Fine Grained Macros
 // @description    Allows you to escape the 5% macro rounding on MFPs diary page
-// @include        *www.myfitnesspal.com/food/diary/*
+// @include        *www.myfitnesspal.com/food/diary*
 // @version        1.0
 // ==/UserScript==
 (function () {
   // load and execute jquery, chrome does not support the @requires tag
-  var load,execute,loadAndExecute;load=function(a,b,c){var d;d=document.createElement("script"),d.setAttribute("src",a),b!=null&&d.addEventListener("load",b),c!=null&&d.addEventListener("error",c),document.body.appendChild(d);return d},execute=function(a){var b,c;typeof a=="function"?b="("+a+")();":b=a,c=document.createElement("script"),c.textContent=b,document.body.appendChild(c);return c},loadAndExecute=function(a,b){return load(a,function(){return execute(b)})};
+  function load(url, onLoad, onError) {
+    e = document.createElement("script");
+    e.setAttribute("src", url);
+
+    if (onLoad !== null) { e.addEventListener("load", onLoad); }
+    if (onError !== null) { e.addEventListener("error", onError); }
+
+    document.body.appendChild(e);
+
+    return e;
+  }
+
+  function execute(functionOrCode) {
+    if (typeof functionOrCode === "function") {
+      code = "(" + functionOrCode + ")();";
+    } else {
+      code = functionOrCode;
+    }
+
+    e = document.createElement("script");
+    e.textContent = code;
+
+    document.body.appendChild(e);
+
+    return e;
+  }
+
+  function loadAndExecute(url, functionOrCode) {
+    load(url, function() { execute(functionOrCode); });
+  }
+
   loadAndExecute("https://code.jquery.com/jquery-3.2.1.min.js", function () {
     var populateInputs = function () {
       var values = JSON.parse(localStorage.getItem("mfp-keto-goals"));
@@ -51,17 +81,17 @@
         carbs: totalRow.find("td:nth-child(" + carbIdx + ")"),
         fat: totalRow.find("td:nth-child(" + fatIdx + ")"),
         protein: totalRow.find("td:nth-child(" + proteinIdx + ")"),
-      }
+      };
       var goalsEl = {
         carbs: goalRow.find("td:nth-child(" + carbIdx + ")"),
         fat: goalRow.find("td:nth-child(" + fatIdx + ")"),
         protein: goalRow.find("td:nth-child(" + proteinIdx + ")"),
-      }
+      };
       var remainingEl = {
         carbs: remainingRow.find("td:nth-child(" + carbIdx + ")"),
         fat: remainingRow.find("td:nth-child(" + fatIdx + ")"),
         protein: remainingRow.find("td:nth-child(" + proteinIdx + ")"),
-      }
+      };
 
       // display the updated goals
       goalsEl.carbs.text(inputs.carbs.toLocaleString());
@@ -73,7 +103,7 @@
         carbs: parseInt(goalsEl.carbs.text().replace(",", "")) - parseInt(totalEl.carbs.text().replace(",", "")),
         fat: parseInt(goalsEl.fat.text().replace(",", "")) - parseInt(totalEl.fat.text().replace(",", "")),
         protein: parseInt(goalsEl.protein.text().replace(",", "")) - parseInt(totalEl.protein.text().replace(",", "")),
-      }
+      };
 
       // display the updated remaining values
       remainingEl.carbs.text(outputs.carbs.toLocaleString());
@@ -91,7 +121,7 @@
 
     var setup = function () {
       // preload the user's goal values
-      if (localStorage.getItem("mfp-keto-goals") == null) {
+      if (localStorage.getItem("mfp-keto-goals") === null) {
         var carbIdx = -1;
         var fatIdx = -1;
         var proteinIdx = -1;
@@ -111,7 +141,7 @@
           carbs: goalRow.find("td:nth-child(" + carbIdx + ")"),
           fat: goalRow.find("td:nth-child(" + fatIdx + ")"),
           protein: goalRow.find("td:nth-child(" + proteinIdx + ")"),
-        }
+        };
 
         var preloadedValues = {
           carbs: 0,
